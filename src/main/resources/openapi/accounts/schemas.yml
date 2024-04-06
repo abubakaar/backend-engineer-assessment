@@ -18,6 +18,16 @@ components:
           description: "Email of user"
           example: "john@doe.com"
           required: true
+        providerType:
+          type: string
+          description: "User's provider type"
+          example: "Stripe"
+          required: true
+        providerId:
+          type: string
+          description: "User's provider id"
+          example: "czn_adsdd"
+          required: true
     account:
       type: object
       properties:
@@ -51,10 +61,22 @@ components:
           description: "Prospect last updated time"
           readOnly: true
           example: "2022-04-13T01:52:40.690387Z"
+        providerType:
+          type: string
+          description: "User's provider type"
+          example: "Stripe"
+          required: true
+        providerId:
+          type: string
+          description: "User's provider id"
+          example: "czn_adsdd"
+          required: true
       example:
         - id: usr_fba5b240-0e68-4e64-aca6-f12022dc4be3
           firstName: "John"
           lastName: "Doe"
+          providerId: "caz_sdsfddsddfdfdfsdewef"
+          providerType: "Stripe"
           creationAt: "2022-04-13T01:52:40.690387Z"
           updatedAt: "2022-04-13T01:52:40.690387Z"
 
@@ -62,3 +84,19 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/account"
+
+    accountUpdateRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: "User's updated first name"
+          example: "John"
+        lastName:
+          type: string
+          description: "User's updated last name"
+          example: "Doe"
+        email:
+          type: string
+          description: "Updated email of user"
+          example: "john.doe@example.com"

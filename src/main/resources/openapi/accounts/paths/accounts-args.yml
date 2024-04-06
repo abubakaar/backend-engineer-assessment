@@ -1,0 +1,33 @@
+patch:
+  summary: Update account details
+  operationId: updateAccountDetails
+  description: Updates the first name, last name, and email of the specified account.
+  tags:
+    - Accounts
+  parameters:
+    - name: accountId
+      in: path
+      description: The ID of the account to update
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas.yml#/components/schemas/accountUpdateRequest"
+  responses:
+    "200":
+      description: Updated account details
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/account"
+    "404":
+      $ref: "../../common/responses.yml#/components/responses/notFound"
+    "400":
+      $ref: "../../common/responses.yml#/components/responses/badRequest"
+    "500":
+      $ref: "../../common/responses.yml#/components/responses/internalServerError"

@@ -3,6 +3,7 @@ package com.midas.app.models;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,4 +37,10 @@ public class Account {
   @Column(name = "updated_at")
   @UpdateTimestamp
   private OffsetDateTime updatedAt;
+
+  @Column(name = "provider_type")
+  private String providerType;
+
+  @Column(name = "provider_id")
+  @Nullable private String providerId;
 }

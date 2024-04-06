@@ -1,18 +1,23 @@
 package com.midas.app.controllers;
 
+import com.midas.app.enums.ProviderTypes;
 import com.midas.app.mappers.Mapper;
 import com.midas.app.models.Account;
 import com.midas.app.services.AccountService;
 import com.midas.generated.api.AccountsApi;
 import com.midas.generated.model.AccountDto;
+import com.midas.generated.model.AccountUpdateRequestDto;
 import com.midas.generated.model.CreateAccountDto;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +42,7 @@ public class AccountController implements AccountsApi {
                 .firstName(createAccountDto.getFirstName())
                 .lastName(createAccountDto.getLastName())
                 .email(createAccountDto.getEmail())
+                .providerType(ProviderTypes.STRIPE.name())
                 .build());
 
     return new ResponseEntity<>(Mapper.toAccountDto(account), HttpStatus.CREATED);
@@ -55,5 +61,19 @@ public class AccountController implements AccountsApi {
     var accountsDto = accounts.stream().map(Mapper::toAccountDto).toList();
 
     return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+  }
+
+  /**
+   * PATCH /accounts : Get list of user accounts Returns a list of user accounts.
+   *
+   * @return List of user accounts (status code 200)
+   */
+  @Override
+  public ResponseEntity<AccountDto> updateAccountDetails(
+      @PathVariable("accountId") UUID accountId, @RequestBody AccountUpdateRequestDto request) {
+
+    logger.info("Updating Account");
+    Account updatedAccount = accountService.updateAccount(accountId, request);
+    return new ResponseEntity<>(Mapper.toAccountDto(updatedAccount), HttpStatus.CREATED);
   }
 }
