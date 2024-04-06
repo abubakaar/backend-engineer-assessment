@@ -28,7 +28,7 @@ public class AccountActivityImpl implements AccountActivity {
   public Account createPaymentAccount(Account account) {
     try {
 
-      Stripe.apiKey = "";
+
       logger.info("Started workflow to create account for email: {}", account.getEmail());
 
       CustomerCreateParams params =
