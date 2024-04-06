@@ -1,6 +1,7 @@
 package com.midas.app.conig;
 
 import com.midas.app.activities.AccountActivityImpl;
+import com.midas.app.providers.external.stripe.StripeConfiguration;
 import com.midas.app.repositories.AccountRepository;
 import com.midas.app.workflows.CreateAccountWorkflow;
 import com.midas.app.workflows.CreateAccountWorkflowImpl;
@@ -30,7 +31,10 @@ public class config {
   }
 
   @Bean
-  public WorkerFactory workerFactory(WorkflowClient workflowClient, AccountRepository repository) {
+  public WorkerFactory workerFactory(
+      WorkflowClient workflowClient,
+      AccountRepository repository,
+      StripeConfiguration configuration) {
 
     WorkerFactory workerFactory = WorkerFactory.newInstance(workflowClient);
 
@@ -47,7 +51,7 @@ public class config {
         workflowImplementationOptions, CreateAccountWorkflowImpl.class);
 
     // Registering Activity
-    worker.registerActivitiesImplementations(new AccountActivityImpl(repository));
+    worker.registerActivitiesImplementations(new AccountActivityImpl(repository, configuration));
 
     workerFactory.start();
     return workerFactory;

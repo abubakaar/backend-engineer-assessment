@@ -6,7 +6,6 @@ import com.midas.app.workflows.CreateAccountWorkflow;
 import com.midas.generated.model.AccountUpdateRequestDto;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
-import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.workflow.Workflow;
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +21,6 @@ public class AccountServiceImpl implements AccountService {
   private final WorkflowClient workflowClient;
 
   private final AccountRepository accountRepository;
-
-  private final WorkflowServiceStubs workflowServiceStubs;
 
   /**
    * createAccount creates a new account in the system or provider.

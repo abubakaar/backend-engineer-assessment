@@ -31,7 +31,9 @@ public class CreateAccountWorkflowImpl implements CreateAccountWorkflow {
   @Override
   public Account createAccount(Account details) {
 
+    // Creating Account in Stripe
     details = activity.createPaymentAccount(details);
+    // Saving account in Postgres
     activity.saveAccount(details);
     return details;
   }

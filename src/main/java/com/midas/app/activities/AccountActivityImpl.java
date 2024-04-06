@@ -1,8 +1,8 @@
 package com.midas.app.activities;
 
 import com.midas.app.models.Account;
+import com.midas.app.providers.external.stripe.StripeConfiguration;
 import com.midas.app.repositories.AccountRepository;
-import com.midas.app.services.AccountServiceImpl;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -14,9 +14,10 @@ import org.slf4j.Logger;
 @RequiredArgsConstructor
 public class AccountActivityImpl implements AccountActivity {
 
-  private final Logger logger = Workflow.getLogger(AccountServiceImpl.class);
+  private final Logger logger = Workflow.getLogger(AccountActivityImpl.class);
 
   private final AccountRepository repository;
+  private final StripeConfiguration configuration;
 
   @Override
   public Account saveAccount(Account account) {
@@ -28,7 +29,7 @@ public class AccountActivityImpl implements AccountActivity {
   public Account createPaymentAccount(Account account) {
     try {
 
-
+      Stripe.apiKey = configuration.getApiKey();
       logger.info("Started workflow to create account for email: {}", account.getEmail());
 
       CustomerCreateParams params =
